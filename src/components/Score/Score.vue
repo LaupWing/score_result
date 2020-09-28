@@ -38,7 +38,12 @@ export default {
 	},
 	data(){
 		return{
-			_questions: JSON.parse(JSON.stringify(this.questions))
+			_questions: JSON.parse(JSON.stringify(this.questions.map((x,i)=>{
+				return {
+					...x,
+					id: i
+				}
+			})))
 		}
 	},
 	props: {
@@ -56,9 +61,8 @@ export default {
 	},
 	methods:{
 		toggleChecked(question){
-			this.$data._questions = this.$data._questions.map(q=>{
-				if(q === question){
-					console.log(q)
+			this.$data._questions = this.$data._questions.map(q => {
+				if(q.id === question.id){
 					q.checked = !q.checked
 				}
 				return q

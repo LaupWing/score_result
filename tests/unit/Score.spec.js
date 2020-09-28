@@ -74,7 +74,7 @@ const wrapper = mount(Score, {
 describe("Button triggers", ()=>{
 	it(`Toggle question will add ${testQuestion.points} points`, async ()=>{
 		await wrapper.vm.toggleChecked(testQuestion)
-		console.log(wrapper.vm.totalPoints)
+		console.log(wrapper.vm.$data._questions[0].checked)
 		console.log(wrapper.vm.totalPoints)
 		console.log(testQuestion)
 		expect(wrapper.vm.totalPoints).toBe(1)
