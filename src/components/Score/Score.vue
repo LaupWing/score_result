@@ -11,6 +11,7 @@
 		</div>
 		<app-result 
 			:results="results"
+			:defaultMessage="defaultMessage"
 			:totalPoints="totalPoints"
 		/>
 	</div>
