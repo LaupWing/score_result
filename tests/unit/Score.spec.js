@@ -59,7 +59,7 @@ const results = [
 	},
 ]
 const defaultMessage = 'The adjusted stroke rate was the expected stroke rate per 100 person-years derived from the multivariable model assuming that aspirin was not taken.'
-const testQuestion = questions[0]
+const testQuestion = {...questions[0], id: 0}
 const wrapper = mount(Score, {
 	propsData:{
 		questions,
@@ -74,9 +74,6 @@ const wrapper = mount(Score, {
 describe("Button triggers", ()=>{
 	it(`Toggle question will add ${testQuestion.points} points`, async ()=>{
 		await wrapper.vm.toggleChecked(testQuestion)
-		console.log(wrapper.vm.$data._questions[0].checked)
-		console.log(wrapper.vm.totalPoints)
-		console.log(testQuestion)
 		expect(wrapper.vm.totalPoints).toBe(1)
 	})
 
@@ -92,6 +89,8 @@ describe("Button triggers", ()=>{
 describe("Result.vue", ()=>{
 	it(`Show the right message at a certain total points`, async ()=>{
 		await wrapper.vm.toggleChecked(testQuestion)
-		expect(wrapper.vm.totalPoints).toBe(0)
+		const result = wrapper.find('.result p').text().trim()
+		const msg =  "Intermediate risk of thromboembolic event. 2.8% risk of event per year if no coumadin."
+		expect(result).toBe(msg)
 	})
 })
