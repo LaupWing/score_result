@@ -1,5 +1,5 @@
 import {mount} from '@vue/test-utils'
-import Score from '~/src/components/Score/Score'
+import Score from '@/components/Score/Score'
 const questions  = [
 	{
 		title: 'CHF history',
@@ -58,23 +58,25 @@ const results = [
 		message: "By points directly:High risk of thromboembolic event. 18.2% risk of event per year if no coumadin."
 	},
 ]
-
 const defaultMessage = 'The adjusted stroke rate was the expected stroke rate per 100 person-years derived from the multivariable model assuming that aspirin was not taken.'
+const testQuestion = questions[0]
+const wrapper = mount(Score, {
+	propsData:{
+		questions,
+		results,
+		defaultMessage
+	}
+})
 
 // Buttons:
 // * When toggle one questiont it needs to add the correct amount of points to the totalpoints
 // * When toggle one questiont it needs to subtract the correct amount of points to the totalpoints
 describe("Button triggers", ()=>{
-
-	const wrapper = mount(Score, {
-		questions,
-		results,
-		defaultMessage
-	})
-
-	const testQuestion = questions[0]
 	it(`Toggle question will add ${testQuestion.points} points`, async ()=>{
 		await wrapper.vm.toggleChecked(testQuestion)
+		console.log(wrapper.vm.totalPoints)
+		console.log(wrapper.vm.totalPoints)
+		console.log(testQuestion)
 		expect(wrapper.vm.totalPoints).toBe(1)
 	})
 
@@ -87,14 +89,8 @@ describe("Button triggers", ()=>{
 
 // Results:
 // * Show correct message at certain totalpoints
-describe("Show correct result message", ()=>{
-	const wrapper = mount(Score, {
-		questions,
-		results,
-		defaultMessage
-	})
-
-	it(`Toggle question will subtract ${testQuestion.points} points`, async ()=>{
+describe("Result.vue", ()=>{
+	it(`Show the right message at a certain total points`, async ()=>{
 		await wrapper.vm.toggleChecked(testQuestion)
 		expect(wrapper.vm.totalPoints).toBe(0)
 	})

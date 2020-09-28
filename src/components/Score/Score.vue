@@ -58,6 +58,7 @@ export default {
 		toggleChecked(question){
 			this.$data._questions = this.$data._questions.map(q=>{
 				if(q === question){
+					console.log(q)
 					q.checked = !q.checked
 				}
 				return q
