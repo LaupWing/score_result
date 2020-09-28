@@ -1,5 +1,7 @@
 import {mount} from '@vue/test-utils'
 import Score from '@/components/Score/Score'
+import Result from '@/components/Score/Result/Result'
+
 const questions  = [
 	{
 		title: 'CHF history',
@@ -87,10 +89,34 @@ describe("Button triggers", ()=>{
 // Results:
 // * Show correct message at certain totalpoints
 describe("Result.vue", ()=>{
-	it(`Show the right message at a certain total points`, async ()=>{
+	it(`When toggled first question show the right message`, async ()=>{
 		await wrapper.vm.toggleChecked(testQuestion)
 		const result = wrapper.find('.result p').text().trim()
 		const msg =  "Intermediate risk of thromboembolic event. 2.8% risk of event per year if no coumadin."
 		expect(result).toBe(msg)
+	})
+
+	it(`Show the right message at total points 6`, async ()=>{
+		const ResultWrapper = mount(Result, {
+			propsData:{
+				totalPoints: 6,
+				results,
+			}
+		})
+		const msg =  "By points directly:High risk of thromboembolic event. 18.2% risk of event per year if no coumadin."
+
+		expect(ResultWrapper.vm.message).toBe(msg)
+	})
+
+	it(`Default message`, async ()=>{
+		const ResultWrapper = mount(Result, {
+			propsData:{
+				totalPoints: 0,
+				results,
+				defaultMessage
+			}
+		})
+		const resultDefaultText = ResultWrapper.find('p:last-of-type').text()
+		expect(resultDefaultText).toBe(defaultMessage)
 	})
 })
